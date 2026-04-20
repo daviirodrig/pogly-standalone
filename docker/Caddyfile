@@ -5,8 +5,18 @@
         path /energy/*
     }
 
+    @runtime_config {
+        path /runtime-config.v2.js
+    }
+
     handle @spacetime {
         reverse_proxy localhost:3000
+    }
+
+    handle @runtime_config {
+        root * /usr/share/caddy
+        header Cache-Control "no-store, no-cache, must-revalidate"
+        file_server
     }
 
     handle {
