@@ -1,6 +1,6 @@
 deploy() {
   # Ignore errors,
-  until (spacetime server ping -s local 2>/dev/null) | grep -q "Server is online";
+until (spacetime server ping local 2>/dev/null) | grep -q "Server is online";
   do
     echo "Waiting for server to start..."
     sleep 1
