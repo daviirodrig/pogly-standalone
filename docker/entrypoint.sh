@@ -1,6 +1,6 @@
 deploy() {
   # Ignore errors,
-until (spacetime server ping local 2>/dev/null) | grep -q "Server is online";
+  until (spacetime server ping local 2>/dev/null) | grep -q "Server is online";
   do
     echo "Waiting for server to start..."
     sleep 1
@@ -11,7 +11,7 @@ until (spacetime server ping local 2>/dev/null) | grep -q "Server is online";
   for module in "${module_names[@]}"
   do
     echo "$module"
-    spacetime publish -w /app/pogly.wasm -s local "$module"
+    spacetime publish -b /app/pogly.wasm -s local "$module"
   done
 }
 
