@@ -5,7 +5,7 @@ COPY --chown=spacetime:spacetime server .
 RUN spacetime build \
     && mv /app/obj/Release/net8.0/wasi-wasm/wasm/for-publish/StdbModule.wasm pogly.wasm
 
-FROM node:25-alpine3.21 AS web
+FROM --platform=$BUILDPLATFORM node:25-alpine3.21 AS web
 WORKDIR /app
 COPY . .
 RUN npm install && npm run build
