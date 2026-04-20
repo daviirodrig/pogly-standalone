@@ -23,6 +23,8 @@ jobs:
         env:
           GITHUB_OWNER: "${{ github.repository_owner }}"
       - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
         if: github.event_name != 'pull_request'
         with:
@@ -42,10 +44,11 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=user/app:latest
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   delete_old_packages:
     name: "Delete old Packages"
