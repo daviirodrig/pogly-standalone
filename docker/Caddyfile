@@ -6,7 +6,7 @@
     }
 
     @runtime_config {
-        path /runtime-config.v2.js
+        path /runtime-config.v3.js
     }
 
     handle @spacetime {
