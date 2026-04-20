@@ -15,8 +15,16 @@ deploy() {
   done
 }
 
+generate_runtime_config() {
+  export REACT_APP_OIDC_AUTHORITY="${REACT_APP_OIDC_AUTHORITY:-https://auth.spacetimedb.com/oidc}"
+  export REACT_APP_OIDC_CLIENT_ID="${REACT_APP_OIDC_CLIENT_ID:-client_0332oanjeP60cq8KNcjcJX}"
+  envsubst </etc/caddy/runtime-config.js.template >/usr/share/caddy/runtime-config.js
+}
+
 # Kill all parallel processes below
 trap "kill 0" SIGINT
+
+generate_runtime_config
 
 caddy run --config /etc/caddy/Caddyfile --adapter caddyfile \
 & spacetime start --listen-addr 0.0.0.0:3000 --data-dir /stdb \

@@ -13,8 +13,12 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <title>Pogly Standalone</title>
-  <script type="module" src="src/index"></script>
-  <style>
+    <script>
+      window.__POGLY_CONFIG__ = window.__POGLY_CONFIG__ || {};
+    </script>
+    <script src="/runtime-config.js"></script>
+    <script type="module" src="src/index"></script>
+    <style>
     body {
       background-color: #10121a;
       color: #ffffffa6;

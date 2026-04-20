@@ -9,11 +9,22 @@ import { store } from "./Store/Features/store";
 import { AuthProvider, useAuth } from "react-oidc-context";
 import { WebStorageStateStore } from "oidc-client-ts";
 
-//https://auth.spacetimedb.com/oidc/.well-known/openid-configuration
+declare global {
+  interface Window {
+    __POGLY_CONFIG__?: {
+      oidcAuthority?: string;
+      oidcClientId?: string;
+    };
+  }
+}
+
+const runtimeConfig = window.__POGLY_CONFIG__ || {};
+const oidcAuthority = runtimeConfig.oidcAuthority || process.env.REACT_APP_OIDC_AUTHORITY || "https://auth.spacetimedb.com/oidc";
+const oidcClientId = runtimeConfig.oidcClientId || process.env.REACT_APP_OIDC_CLIENT_ID || "client_0332oanjeP60cq8KNcjcJX";
 
 const oidcConfig = {
-  authority: "https://auth.spacetimedb.com/oidc",
-  client_id: "client_031BvnxblLKmMtctMbLllZ",
+  authority: oidcAuthority,
+  client_id: oidcClientId,
   redirect_uri: `${window.location.origin}/callback`,
   post_logout_redirect_uri: `${window.location.origin}/`,
   scope: "openid profile",
@@ -26,14 +37,14 @@ const oidcConfig = {
 
   loadUserInfo: false,
     metadata: {
-    issuer: "https://auth.spacetimedb.com/oidc",
-    authorization_endpoint: "https://auth.spacetimedb.com/oidc/auth",
-    token_endpoint:         "https://auth.spacetimedb.com/oidc/token",
-    jwks_uri:               "https://auth.spacetimedb.com/oidc/jwks",
-    end_session_endpoint:   "https://auth.spacetimedb.com/oidc/session/end",
-    pushed_authorization_request_endpoing: "https://auth.spacetimedb.com/oidc/request",
-    userinfo_endpoint:      "https://auth.spacetimedb.com/oidc/me",
-    introspection_endpoint: "https://auth.spacetimedb.com/oidc/token/introspection"
+    issuer: oidcAuthority,
+    authorization_endpoint: `${oidcAuthority}/auth`,
+    token_endpoint: `${oidcAuthority}/token`,
+    jwks_uri: `${oidcAuthority}/jwks`,
+    end_session_endpoint: `${oidcAuthority}/session/end`,
+    pushed_authorization_request_endpoing: `${oidcAuthority}/request`,
+    userinfo_endpoint: `${oidcAuthority}/me`,
+    introspection_endpoint: `${oidcAuthority}/token/introspection`
   },
 };
 

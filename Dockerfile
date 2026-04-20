@@ -15,13 +15,14 @@ FROM clockworklabs/spacetime:latest
 USER root
 
 RUN apt-get update \
-    && apt-get install -y caddy \
+    && apt-get install -y caddy gettext-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=web /app/build /usr/share/caddy
 COPY --from=module /app/pogly.wasm /app/pogly.wasm
 COPY docker/Caddyfile /etc/caddy/
+COPY docker/runtime-config.js.template /etc/caddy/runtime-config.js.template
 COPY docker/entrypoint.sh /app/entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]

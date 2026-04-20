@@ -1,0 +1,4 @@
+window.__POGLY_CONFIG__ = {
+  oidcAuthority: "$REACT_APP_OIDC_AUTHORITY",
+  oidcClientId: "$REACT_APP_OIDC_CLIENT_ID"
+};
